@@ -3,8 +3,8 @@ const { insertAll } = require('../events')
 const { saveMedia, getByTitle } = require('../media')
 const fetch = require('node-fetch');
 
-const url_base  = 'https://api.themoviedb.org/3';
-const api_key =  process.env.TMDB_KEY;
+const url_base = 'https://api.themoviedb.org/3';
+const api_key = process.env.TMDB_KEY;
 
 
 function timeout(ms) {

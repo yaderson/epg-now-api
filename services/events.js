@@ -82,17 +82,18 @@ async function getPlayingNowByMtype(mediaType){
 }
 
 async function getPlayingNowByMtypeScore(mediaType){
+    const da = new Date().setHours(new Date().getHours()+12)
     const events = await Event.find({
         tmdb_id: { $type: 7 }, 
         tmdb_media_type: mediaType, 
-        date_end: { $gte: new Date() }, 
-        date_begin: {$lte: new Date()}
-    }).populate({
+        
+        date_begin: {$gte: new Date(), $lte:  new Date(da)}
+    }).sort({date_begin: 1}).populate({
         path: 'tmdb_media'
     }).populate({
         path: 'channel'
     })
-    const a = events.sort((a, b) => b.tmdb_media.vote_average - a.tmdb_media.vote_average)
+    a = events.sort((a, b) => b.tmdb_media.vote_average - a.tmdb_media.vote_average)
     //Query select all of tybe ObjectId
     return a
 }
