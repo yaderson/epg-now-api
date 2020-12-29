@@ -49,16 +49,9 @@ async function getEventsByChannelTitle(title_uri) {
 }
 
 async function addTmbdIdToAll(media){
-    // switch (media.media_type) {
-    //     case 'movie':
-            const name = media.event_called
-            const updatedM = await Event.updateMany({name: name}, {tmdb_id: media._id, tmdb_media_type: media.media_type})
-            return updatedM
-        // case 'tv':
-        //     const { name } = media
-        //     const eventsTupdated = await Event.updateMany({name}, {tmdb_id: media._id,  tmdb_media_type: media.media_type})
-        //     return eventsTupdated
-    //}
+    const name = media.event_called
+    const updatedM = await Event.updateMany({name: name}, {tmdb_id: media._id, tmdb_media_type: media.media_type})
+    return updatedM
 }
 
 async function getEventsPlaying() {
@@ -82,10 +75,10 @@ async function getPlayingNowByMtype(mediaType){
 }
 
 async function getPlayingNowByMtypeScore(mediaType){
-    const da = new Date().setHours(new Date().getHours()+12)
+    const da = new Date(Date.now()+(6*60)*60*1000)
     const events = await Event.find({
-        tmdb_id: { $type: 7 }, 
-        tmdb_media_type: mediaType, 
+        tmdb_id: { $type: 7 },
+        tmdb_media_type: mediaType,
         
         date_begin: {$gte: new Date(), $lte:  new Date(da)}
     }).sort({date_begin: 1}).populate({

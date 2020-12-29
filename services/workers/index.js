@@ -42,7 +42,7 @@ async function getMedia(event) {
                     }
                 }
             })
-            console.log('Try: ',matchTMDB[0])
+            
             if(matchTMDB[0]){
                 let mediaResult = await (await fetch(`${url_base}/${matchTMDB[0].media_type}/${matchTMDB[0].id}?api_key=${api_key}&language=es-ES`)).json()
 
@@ -71,16 +71,18 @@ async function getMedia(event) {
 
 
 async function saveEvents(){
-    console.log('Fetch Events from origin...')
+    console.log('+++ Fetch Events from origin...')
+    
     const channels = await fetchDataFromOrigin()
-    console.log('Fetched...')
+
+    console.log('+++ Fetched...')
+
     let eventsAll = []
     let lastprogramed = new Date()
 
     if(channels.length > 0){
         await channels.forEach(async(element) => {
-            await element.events.forEach(async(event) =>{
-                
+            await element.events.forEach(async(event) => {
                 await eventsAll.push({
                     channel_id: event.channel_id,
                     id: event.id,
@@ -99,7 +101,7 @@ async function saveEvents(){
             })
         })
         
-        console.log(`init ${eventsAll.length}`)
+        console.log(`#### START: ${eventsAll.length}`)
         for (let i = 0; i < eventsAll.length; i++) {
             console.log(`[${i}] process: ${eventsAll[i].name}`)
             const match = await getMedia(eventsAll[i])
@@ -113,10 +115,10 @@ async function saveEvents(){
             }
         }
     
-        console.log(`${eventsAll.length} Events Maped...`)
+        console.log(`=== ${eventsAll.length} Events Maped...`)
         const savedEvents = await insertAll(eventsAll)
-        console.log(`${savedEvents.length} Events was Saved successful!!`)
-        return 0
+        console.log(`=== ${savedEvents.length} Events was Saved successful!!`)
+        return savedEvents
     }else {
         return new Error('Error epg no found')
     }
