@@ -22,7 +22,7 @@ module.exports = async function (fastify, opts) {
     routePrefix: '/documentation'
   })
   fastify.register(require('fastify-cors'), {
-    origin: 'https://epg-now.web.app',
+    origin: ['localhost','https://epg-now.web.app'],
     //'access-control-allow-origin': '*'
   })
   
