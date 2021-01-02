@@ -1,3 +1,6 @@
+#secrets-ssl-key
+*.key
+
 # Logs
 logs
 *.log
