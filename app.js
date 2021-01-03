@@ -22,8 +22,8 @@ module.exports = async function (fastify, opts) {
     routePrefix: '/documentation'
   })
   fastify.register(require('fastify-cors'), {
-    origin: ['localhost','https://epg-now.web.app'],
-    //'access-control-allow-origin': '*'
+    //origin: ['localhost','https://epg-now.web.app'],
+    'access-control-allow-origin': '*'
   })
   
   // Do not touch the following lines
