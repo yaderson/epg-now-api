@@ -54,7 +54,8 @@ async function addTmbdIdToAll(media){
     return updatedM
 }
 
-async function getEventsPlaying(limit = 30, skip = 0, sort= 'desc') {
+async function getEventsPlaying(limit, skip, sort) {
+    console.log(limit)
     const events = await Event.find({
         date_end: { $gte: new Date() }, date_begin: {$lte: new Date()}
     }).limit(limit).skip(skip).sort({tmdb_media_type: sort}).populate({path: "channel"})

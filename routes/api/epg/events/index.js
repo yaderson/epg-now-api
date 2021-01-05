@@ -29,7 +29,7 @@ module.exports = async function (fastify, opts) {
 
   fastify.get('/playing', async function(request, reply){//TODO: schema
     const { limit, skip, sort } = request.query
-    reply.send(await getEventsPlaying(Number(limit), Number(skip), sort))
+    reply.send(await getEventsPlaying(Number(limit)|| 30, Number(skip) || 0, sort || 'desc'))
   })
 
   fastify.get('/live/:mediaType', async function(request, reply){
