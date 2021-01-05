@@ -27,8 +27,9 @@ module.exports = async function (fastify, opts) {
     reply.send(await getAllEventsByChannelId(channel_id))
   })
 
-  fastify.get('/playing', async function(request, reply){//TODO: schemna
-    reply.send(await getEventsPlaying())
+  fastify.get('/playing', async function(request, reply){//TODO: schema
+    const { limit, skip, sort } = request.query
+    reply.send(await getEventsPlaying(Number(limit), Number(skip), sort))
   })
 
   fastify.get('/live/:mediaType', async function(request, reply){
@@ -36,7 +37,7 @@ module.exports = async function (fastify, opts) {
     reply.send(await getPlayingNowByMtype(mediaType))
   })
 
-  fastify.get('/live/score/:mediaType', async function(request, reply){//TODO: schemna
+  fastify.get('/live/score/:mediaType', async function(request, reply){//TODO: schema
     const { mediaType } = request.params
     reply.send(await getPlayingNowByMtypeScore(mediaType))
   })
