@@ -79,7 +79,7 @@ async function getPlayingNowByMtype(mediaType){
 }
 
 async function getPlayingNowByMtypeScore(mediaType){
-    const da = new Date(Date.now()+(6*60)*60*1000)
+    const da = new Date(Date.now()+(4*60)*60*1000)
     const events = await Event.find({
         tmdb_id: { $type: 7 },
         tmdb_media_type: mediaType,  
