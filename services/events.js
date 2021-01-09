@@ -78,14 +78,14 @@ async function getPlayingNowByMtype(mediaType){
     return events
 }
 
-async function getPlayingNowByMtypeScore(mediaType){
-    const da = new Date(Date.now()+(4*60)*60*1000)
+async function getPlayingNowByMtypeScore(mediaType, limit){
+    const da = new Date(Date.now()+(12*60)*60*1000)
     const events = await Event.find({
         tmdb_id: { $type: 7 },
         tmdb_media_type: mediaType,  
         date_begin: {$gte: new Date()},
         date_end: {$lte: da}
-    }).populate({
+    }).limit(limit).populate({
         path: 'tmdb_media'
     }).populate({
         path: 'channel'

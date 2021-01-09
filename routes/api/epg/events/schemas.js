@@ -81,9 +81,20 @@ const allEvents = {
     }
 }
 
+
+const getPlayingNowByMtypeScoreSchema = {
+    schema: {
+        description: 'Obtain top by media :type',
+        querystring: {
+            limit: { type: 'integer'}
+        }
+    }
+}
+
 module.exports = {
     event,
     events,
     eventsByTitleSchema,
-    allEvents
+    allEvents,
+    getPlayingNowByMtypeScoreSchema
 }

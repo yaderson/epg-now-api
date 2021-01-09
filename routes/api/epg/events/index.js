@@ -37,8 +37,9 @@ module.exports = async function (fastify, opts) {
     reply.send(await getPlayingNowByMtype(mediaType))
   })
 
-  fastify.get('/live/score/:mediaType', async function(request, reply){//TODO: schema
+  fastify.get('/live/score/:mediaType', schemas.getPlayingNowByMtypeScoreSchema,async function(request, reply){//TODO: schema
     const { mediaType } = request.params
-    reply.send(await getPlayingNowByMtypeScore(mediaType))
+    const { limit } = request.query
+    reply.send(await getPlayingNowByMtypeScore(mediaType, limit || 30))
   })
 }
