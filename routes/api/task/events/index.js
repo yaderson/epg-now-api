@@ -4,6 +4,7 @@
 
 const redis = require('../../../../services/redis') 
 const { getLasReport } = require('../../../../services/task')
+const { taskSchema } = require('./schema')
 
 function timeDuration(dateBeging, dateEnd){
   let seconds = (dateEnd - dateBeging)/1000
@@ -13,10 +14,12 @@ function timeDuration(dateBeging, dateEnd){
 }
 
 module.exports = async function (fastify, opts) {
-  fastify.get('/', async function (request, reply) {
+  fastify.get('/', {taskSchema},async function (request, reply) {
+    const { hours } = request.query
 
     const report = await getLasReport()
     const started_date = new Date()
+
     console.log(report)
     if(!report) {
       redis.publish('task/events',JSON.stringify({started_date}))
@@ -24,15 +27,12 @@ module.exports = async function (fastify, opts) {
     }
     
     if(timeDuration(new Date(report.started_date), new Date()) > 12){
-      redis.publish('task/events',JSON.stringify({started_date}))
+      redis.publish('task/events',JSON.stringify({started_date, hours}))
       return reply.send({message: `Task Was started successful at (${started_date}) report will send to admin@yader.dev and telegram @epgNow`, success: true})
     }
 
 
     reply.send({message: `Task Was started unsuccessful at (${started_date}) report will send to admin@yader.dev and telegram @epgNow`, success: false})
-    
-
-    // redis.publish('task/events',JSON.stringify({started_date}))
-    // reply.send({message: `Task Was started successful at (${started_date}) report will send to admin@yader.dev and telegram @epgNow`, success: true})
+  
   })
 }
