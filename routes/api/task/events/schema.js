@@ -1,6 +1,6 @@
 const taskSchema = {
     querystring: {
-        hours: {type: 'integer'}
+        days: {type: 'integer'}
     }
 }
 

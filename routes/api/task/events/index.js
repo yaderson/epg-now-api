@@ -15,7 +15,7 @@ function timeDuration(dateBeging, dateEnd){
 
 module.exports = async function (fastify, opts) {
   fastify.get('/', {taskSchema},async function (request, reply) {
-    const { hours } = request.query
+    const { days } = request.query
 
     const report = await getLasReport()
     const started_date = new Date()
@@ -27,7 +27,7 @@ module.exports = async function (fastify, opts) {
     }
     
     if(timeDuration(new Date(report.started_date), new Date()) > 12){
-      redis.publish('task/events',JSON.stringify({started_date, hours}))
+      redis.publish('task/events',JSON.stringify({started_date, days}))
       return reply.send({message: `Task Was started successful at (${started_date}) report will send to admin@yader.dev and telegram @epgNow`, success: true})
     }
 
