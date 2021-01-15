@@ -20,9 +20,16 @@ module.exports = async function (fastify, opts) {
     const report = await getLasReport()
     const started_date = new Date()
 
+    if(days == 0){//Default hours is: 24
+      if(timeDuration(new Date(report.started_date), new Date()) > 12){
+        redis.publish('task/events',JSON.stringify({started_date, days, last_to_event_fetch: report.last_to_event_fetch}))
+        return reply.send({message: `Task Was started successful at (${started_date}) report will send to admin@yader.dev and telegram @epgNow`, success: true})
+      }
+    }
+
     console.log(report)
     if(!report) {
-      redis.publish('task/events',JSON.stringify({started_date}))
+      redis.publish('task/events',JSON.stringify({started_date, days}))
       return reply.send({message: `Task Was started successful at (${started_date}) report will send to admin@yader.dev and telegram @epgNow`, success: true})
     }
     
