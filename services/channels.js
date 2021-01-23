@@ -47,7 +47,7 @@ async function getChannelByIdWithEvents(id){
     return channel
 }
 async function getChannelByTitleWithEvents(title_uri) {
-    const channel = await Channel.findOne({title_uri}).populate({path: 'events', match:{date_end: { $gte: new Date()}}, populate:{ path: 'tmdb_media'} });
+    const channel = await Channel.findOne({title_uri}).populate({path: 'events', match:{date_end: { $gte: new Date()} }, options: { sort: { date_begin: 'asc' } } ,populate:{ path: 'tmdb_media'}});
     if(!channel){
         throw new Error(`The channel ${title_uri} doesn't exist`)
     }

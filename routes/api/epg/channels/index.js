@@ -26,7 +26,6 @@ module.exports = async function (fastify, opts) {
     })
     fastify.get('/events/:title_uri', schemas.channelByTitleWithEventsSchema, async function(request, reply){
         const  { title_uri } = request.params
-
         reply.send(await getChannelByTitleWithEvents(title_uri))
     })
 }

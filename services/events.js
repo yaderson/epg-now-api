@@ -38,7 +38,7 @@ async function getAllEventsByChannelId(channel_id){
 }
 
 async function getEventsByChannelId(channel_id) {
-    const events = await Event.find({channel_id, date_end: { $gte: new Date()}})
+    const events = await Event.find({channel_id, date_end: { $gte: new Date()}}).sort({date_begin: 'asc'})
     if(events.length == 0){ throw new Error(`Channel id ${channel_id} doesn't exist`)}
     return events
 }
